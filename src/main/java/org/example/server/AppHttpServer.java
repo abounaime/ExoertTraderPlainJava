@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
-public class AppHttpServer {
-    private HttpServer server;
-
+public class AppHttpServer implements HttpServerInterface {
+    @Override
     public void start() throws IOException {
-        server = HttpServer.create(new InetSocketAddress(AppConfig.PORT), AppConfig.BACKLOG);
-        RouteConfig.registerRoutes(server);
-        server.setExecutor(Executors.newFixedThreadPool(AppConfig.THREAD_POOL_SIZE));
-        server.start();
+        var httpServer = HttpServer.create(new InetSocketAddress(AppConfig.PORT), AppConfig.BACKLOG);
+        RouteConfig.registerRoutes(httpServer);
+        httpServer.setExecutor(Executors.newFixedThreadPool(AppConfig.THREAD_POOL_SIZE));
+        httpServer.start();
     }
 }
